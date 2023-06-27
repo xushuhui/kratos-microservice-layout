@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"os"
+	"time"
 
 	"github.com/go-kratos/kratos-layout/internal/conf"
 
@@ -14,6 +15,10 @@ import (
 	"github.com/go-kratos/kratos/v2/registry"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+
+	kzap "github.com/go-kratos/kratos/contrib/log/zap/v2"
 
 	_ "go.uber.org/automaxprocs"
 )
@@ -49,10 +54,25 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, rr registry.Reg
 	)
 }
 
+func newLogger() *zap.Logger {
+	f, err := os.OpenFile("log/access.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0o666)
+	if err != nil {
+		return nil
+	}
+	writeSyncer := zapcore.AddSync(f)
+	cfg := zap.NewProductionEncoderConfig()
+	cfg.EncodeTime = func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
+		enc.AppendString(t.Format("2006-01-02 15:04:05.000"))
+	}
+	encoder := zapcore.NewJSONEncoder(cfg)
+	core := zapcore.NewCore(encoder, writeSyncer, zapcore.DebugLevel)
+
+	return zap.New(core)
+}
+
 func main() {
 	flag.Parse()
-	logger := log.With(log.NewStdLogger(os.Stdout),
-		"ts", log.DefaultTimestamp,
+	logger := log.With(kzap.NewLogger(newLogger()),
 		"caller", log.DefaultCaller,
 		"service.id", id,
 		"service.name", Name,

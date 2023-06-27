@@ -43,10 +43,10 @@ func NewRegistrar(conf *conf.Registry) registry.Registrar {
 
 func NewDiscovery(conf *conf.Registry) registry.Discovery {
 	sc := []constant.ServerConfig{
-		*constant.NewServerConfig(conf.Nacos.Addr, 8848),
+		*constant.NewServerConfig(conf.Nacos.Addr, 443),
 	}
 	cc := constant.ClientConfig{
-		NamespaceId: "dev",
+		NamespaceId: "public",
 		TimeoutMs:   5000,
 		Username: conf.Nacos.Username,
 		Password: conf.Nacos.Password,
