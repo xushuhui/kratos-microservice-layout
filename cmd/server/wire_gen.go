@@ -12,15 +12,18 @@ import (
 	"github.com/go-kratos/kratos-layout/internal/data"
 	"github.com/go-kratos/kratos-layout/internal/server"
 	"github.com/go-kratos/kratos-layout/internal/service"
-
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
+)
+
+import (
+	_ "go.uber.org/automaxprocs"
 )
 
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
+func wireApp(confServer *conf.Server, confData *conf.Data, registry *conf.Registry, logger log.Logger) (*kratos.App, func(), error) {
 	dataData, cleanup, err := data.NewData(confData, logger)
 	if err != nil {
 		return nil, nil, err
@@ -30,7 +33,8 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	greeterService := service.NewGreeterService(greeterUsecase)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, logger)
 	httpServer := server.NewHTTPServer(confServer, greeterService, logger)
-	app := newApp(logger, grpcServer, httpServer)
+	registrar := server.NewRegistrar(registry)
+	app := newApp(logger, grpcServer, httpServer, registrar)
 	return app, func() {
 		cleanup()
 	}, nil
