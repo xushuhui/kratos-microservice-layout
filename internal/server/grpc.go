@@ -1,7 +1,7 @@
 package server
 
 import (
-	v1 "github.com/xushuhui/kratos-microservice-layout/api"
+	"github.com/xushuhui/kratos-microservice-layout/api"
 	"github.com/xushuhui/kratos-microservice-layout/internal/conf"
 	"github.com/xushuhui/kratos-microservice-layout/internal/service"
 
@@ -27,6 +27,6 @@ func NewGRPCServer(c *conf.Server, greeter *service.GreeterService, logger log.L
 		opts = append(opts, grpc.Timeout(c.Grpc.Timeout.AsDuration()))
 	}
 	srv := grpc.NewServer(opts...)
-	v1.RegisterGreeterServer(srv, greeter)
+	api.RegisterGreeterServer(srv, greeter)
 	return srv
 }

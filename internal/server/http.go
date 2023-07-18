@@ -1,7 +1,7 @@
 package server
 
 import (
-	v1 "github.com/xushuhui/kratos-microservice-layout/api"
+	"github.com/xushuhui/kratos-microservice-layout/api"
 	"github.com/xushuhui/kratos-microservice-layout/internal/conf"
 	"github.com/xushuhui/kratos-microservice-layout/internal/service"
 
@@ -27,6 +27,6 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, logger log.L
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
-	v1.RegisterGreeterHTTPServer(srv, greeter)
+	api.RegisterGreeterHTTPServer(srv, greeter)
 	return srv
 }
