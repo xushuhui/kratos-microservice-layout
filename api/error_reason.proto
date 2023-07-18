@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package helloworld;
+
+option go_package = "github.com/xushuhui/kratos-microservice-layout/api";
+
+
+enum ErrorReason {
+  GREETER_UNSPECIFIED = 0;
+  USER_NOT_FOUND = 1;
+}

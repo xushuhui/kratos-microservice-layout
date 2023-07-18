@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/go-kratos/kratos-layout/internal/conf"
+	"github.com/xushuhui/kratos-microservice-layout/internal/conf"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"

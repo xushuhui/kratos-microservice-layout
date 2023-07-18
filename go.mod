@@ -1,4 +1,4 @@
-module github.com/go-kratos/kratos-layout
+module github.com/xushuhui/kratos-microservice-layout
 
 go 1.18
 
