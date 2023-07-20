@@ -3,13 +3,13 @@ package service
 import (
 	"context"
 
-	v1 "github.com/xushuhui/kratos-microservice-layout/api"
+	"github.com/xushuhui/kratos-microservice-layout/api"
 	"github.com/xushuhui/kratos-microservice-layout/internal/biz"
 )
 
 // GreeterService is a greeter service.
 type GreeterService struct {
-	v1.UnimplementedGreeterServer
+	api.UnimplementedGreeterServer
 
 	uc *biz.GreeterUsecase
 }
@@ -20,10 +20,10 @@ func NewGreeterService(uc *biz.GreeterUsecase) *GreeterService {
 }
 
 // SayHello implements helloworld.GreeterServer.
-func (s *GreeterService) SayHello(ctx context.Context, in *v1.HelloRequest) (*v1.HelloReply, error) {
+func (s *GreeterService) SayHello(ctx context.Context, in *api.HelloRequest) (*api.HelloReply, error) {
 	g, err := s.uc.CreateGreeter(ctx, &biz.Greeter{Hello: in.Name})
 	if err != nil {
 		return nil, err
 	}
-	return &v1.HelloReply{Message: "Hello " + g.Hello}, nil
+	return &api.HelloReply{Message: "Hello " + g.Hello}, nil
 }

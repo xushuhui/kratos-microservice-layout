@@ -3,14 +3,13 @@ package biz
 import (
 	"context"
 
-	v1 "github.com/xushuhui/kratos-microservice-layout/api"
-
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/xushuhui/kratos-microservice-layout/api"
 )
 
 // ErrUserNotFound is user not found.
-var ErrUserNotFound = errors.NotFound(v1.ErrorReason_USER_NOT_FOUND.String(), "user not found")
+var ErrUserNotFound = errors.NotFound(api.ErrorReason_USER_NOT_FOUND.String(), "user not found")
 
 // Greeter is a Greeter model.
 type Greeter struct {

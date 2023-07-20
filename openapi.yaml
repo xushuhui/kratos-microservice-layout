@@ -25,10 +25,10 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.HelloReply'
+                                $ref: '#/components/schemas/api.HelloReply'
 components:
     schemas:
-        helloworld.HelloReply:
+        api.HelloReply:
             type: object
             properties:
                 message:
