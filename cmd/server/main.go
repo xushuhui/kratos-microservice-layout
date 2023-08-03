@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/xushuhui/kratos-kafka"
 	"github.com/xushuhui/kratos-microservice-layout/internal/conf"
 
 	"github.com/go-kratos/kratos/v2"
@@ -39,7 +40,7 @@ func init() {
 	flag.StringVar(&flagconf, "conf", "../../configs", "config path, eg: -conf config.yaml")
 }
 
-func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, rr registry.Registrar) *kratos.App {
+func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server,ks *kafka.Server, rr registry.Registrar) *kratos.App {
 	return kratos.New(
 		kratos.ID(id),
 		kratos.Name(Name),
@@ -49,6 +50,7 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, rr registry.Reg
 		kratos.Server(
 			gs,
 			hs,
+			ks,
 		),
 		kratos.Registrar(rr),
 	)

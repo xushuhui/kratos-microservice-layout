@@ -33,8 +33,10 @@ func wireApp(confServer *conf.Server, confData *conf.Data, registry *conf.Regist
 	greeterService := service.NewGreeterService(greeterUsecase)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, logger)
 	httpServer := server.NewHTTPServer(confServer, greeterService, logger)
+	greeterJob := service.NewGreeterJob(greeterUsecase, confServer)
+	kafkaServer := server.NewKafkaServer(confServer, greeterJob)
 	registrar := server.NewRegistrar(registry)
-	app := newApp(logger, grpcServer, httpServer, registrar)
+	app := newApp(logger, grpcServer, httpServer, kafkaServer, registrar)
 	return app, func() {
 		cleanup()
 	}, nil

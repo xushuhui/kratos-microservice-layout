@@ -1,9 +1,8 @@
 package server
 
 import (
-	"log"
-
 	"github.com/go-kratos/kratos/contrib/registry/nacos/v2"
+	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/registry"
 	"github.com/google/wire"
 	"github.com/nacos-group/nacos-sdk-go/clients"
@@ -13,7 +12,7 @@ import (
 )
 
 // ProviderSet is server providers.
-var ProviderSet = wire.NewSet(NewGRPCServer, NewHTTPServer, NewDiscovery, NewRegistrar)
+var ProviderSet = wire.NewSet(NewGRPCServer, NewHTTPServer, NewDiscovery, NewRegistrar,NewKafkaServer)
 
 func NewRegistrar(conf *conf.Registry) registry.Registrar {
 	sc := []constant.ServerConfig{
@@ -32,7 +31,7 @@ func NewRegistrar(conf *conf.Registry) registry.Registrar {
 		},
 	)
 	if err != nil {
-		log.Panic(err)
+		log.Fatal(err)
 	}
 
 	r := nacos.New(client)
@@ -56,7 +55,7 @@ func NewDiscovery(conf *conf.Registry) registry.Discovery {
 		},
 	)
 	if err != nil {
-		log.Panic(err)
+		log.Fatal(err)
 	}
 
 	r := nacos.New(client)

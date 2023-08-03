@@ -10,7 +10,6 @@ import (
 // GreeterService is a greeter service.
 type GreeterService struct {
 	api.UnimplementedGreeterServer
-
 	uc *biz.GreeterUsecase
 }
 

@@ -5,6 +5,12 @@ server:
   grpc:
     addr: 0.0.0.0:9000
     timeout: 1s
+  kafka:
+    addr: 0.0.0.0:9092
+    group: group
+    topic:
+      greeter: greeter
+     
 data:
   database:
     driver: mysql
